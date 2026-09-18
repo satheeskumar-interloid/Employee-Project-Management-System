@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # README
 
 This README would normally document whatever steps are necessary to get the
@@ -22,3 +23,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+=======
+# Employee-Project-Management-System
+>>>>>>> 02c1d8a0df3b81533fdb15b5c2b7cafb192e0b1e
