@@ -6,6 +6,9 @@ gem "rails", "~> 8.1.3", ">= 8.1.3.1"
 #Rails authentication:
 gem 'devise', '>= 5.0.4'
 
+#Rails Authorization:
+gem 'pundit', '>= 2.5.2'
+
 gem "json", "2.21.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
