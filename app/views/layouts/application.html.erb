@@ -36,6 +36,7 @@
 
             <%= link_to "Dashboard", root_path %>
             <%= link_to "Projects", projects_path %>
+              <%= link_to "Tasks", tasks_path %>
 
             <span class="user-name">
               <%= current_user.name %>
@@ -44,7 +45,7 @@
             <%= button_to "Logout",
                           destroy_user_session_path,
                           method: :delete,
-                          class: "logout-button" %>
+                          class: "button button-primary" %>
 
           <% else %>
 

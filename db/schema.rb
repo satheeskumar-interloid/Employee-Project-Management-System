@@ -10,17 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_19_161722) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_21_122038) do
+  create_table "project_members", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "project_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["project_id", "user_id"], name: "index_project_members_on_project_id_and_user_id", unique: true
+    t.index ["project_id"], name: "index_project_members_on_project_id"
+    t.index ["user_id"], name: "index_project_members_on_user_id"
+  end
+
   create_table "projects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
+    t.date "end_date"
     t.string "name"
+    t.bigint "owner_id", null: false
+    t.date "start_date"
+    t.integer "status"
     t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_projects_on_owner_id"
   end
 
   create_table "tasks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "assignee_id", null: false
     t.datetime "created_at", null: false
+    t.text "description"
+    t.date "due_date"
+    t.integer "priority"
+    t.bigint "project_id", null: false
+    t.integer "status"
+    t.string "title"
     t.datetime "updated_at", null: false
+    t.index ["assignee_id"], name: "index_tasks_on_assignee_id"
+    t.index ["project_id"], name: "index_tasks_on_project_id"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -50,4 +74,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_19_161722) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
+
+  add_foreign_key "project_members", "projects"
+  add_foreign_key "project_members", "users"
+  add_foreign_key "projects", "users", column: "owner_id"
+  add_foreign_key "tasks", "projects"
+  add_foreign_key "tasks", "users", column: "assignee_id"
 end

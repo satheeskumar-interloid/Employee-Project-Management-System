@@ -1,27 +1,44 @@
-<%= form_with(model: project) do |form| %>
-  <% if project.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
+<%= form_with model: project do |form| %>
 
+  <% if project.errors.any? %>
+    <div class="flash flash-error">
       <ul>
-        <% project.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% project.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
+  <div class="form-group">
+    <%= form.label :name %>
     <%= form.text_field :name %>
   </div>
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.textarea :description %>
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-group">
+    <%= form.label :status %>
+    <%= form.select :status,
+                    Project.statuses.keys.map {
+                      |status| [status.humanize, status]
+                    } %>
   </div>
+
+  <div class="form-group">
+    <%= form.label :start_date %>
+    <%= form.date_field :start_date %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :end_date %>
+    <%= form.date_field :end_date %>
+  </div>
+
+  <%= form.submit "Save Project",
+                  class: "button button-primary" %>
+
 <% end %>

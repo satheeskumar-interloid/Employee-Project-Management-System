@@ -1,15 +1,54 @@
-<h1>Dashboard</h1>
+<div class="dashboard">
 
-<p>
-  Welcome, <strong><%= current_user.name %></strong>.
-</p>
+  <% if current_user.admin? %>
 
-<div class="card">
-  <h3>Projects</h3>
-  <p><%= @projects_count %></p>
-</div>
+    <h1>Admin Dashboard</h1>
 
-<div class="card">
-  <h3>My Tasks</h3>
-  <p><%= @tasks_count %></p>
+    <p>
+      Welcome, <%= current_user.name %>
+    </p>
+
+    <div class="dashboard-cards">
+
+      <div class="dashboard-card">
+        <h3>Employees</h3>
+        <p><%= @employees_count %></p>
+      </div>
+
+      <div class="dashboard-card">
+        <h3>Projects</h3>
+        <p><%= @projects_count %></p>
+      </div>
+
+      <div class="dashboard-card">
+        <h3>Tasks</h3>
+        <p><%= @tasks_count %></p>
+      </div>
+
+    </div>
+
+  <% else %>
+
+    <h1>Employee Dashboard</h1>
+
+    <p>
+      Welcome, <%= current_user.name %>
+    </p>
+
+    <div class="dashboard-cards">
+
+      <div class="dashboard-card">
+        <h3>My Projects</h3>
+        <p><%= @projects_count %></p>
+      </div>
+
+      <div class="dashboard-card">
+        <h3>My Tasks</h3>
+        <p><%= @tasks_count %></p>
+      </div>
+
+    </div>
+
+  <% end %>
+
 </div>

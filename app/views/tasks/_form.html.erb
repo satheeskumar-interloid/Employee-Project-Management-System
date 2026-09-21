@@ -1,0 +1,142 @@
+<%= form_with model: task do |form| %>
+
+<% if task.errors.any? %>
+
+<div class="flash flash-error">
+
+  <h3>
+    <%= pluralize(task.errors.count, "error") %>
+    prevented this task from being saved:
+  </h3>
+
+  <ul>
+    <% task.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+
+</div>
+
+
+<% end %>
+
+  <div class="form-group">
+
+
+<%= form.label :title, "Task Title" %>
+
+<%= form.text_field :title,
+                    placeholder: "Enter task title",
+                    autofocus: true %>
+
+
+  </div>
+
+  <div class="form-group">
+
+<%= form.label :description, "Description" %>
+
+<%= form.text_area :description,
+                   rows: 5,
+                   placeholder: "Describe the task..." %>
+
+
+  </div>
+
+  <div class="form-row">
+
+
+<div class="form-group">
+
+  <%= form.label :project_id, "Project" %>
+
+  <%= form.collection_select :project_id,
+                             Project.all,
+                             :id,
+                             :name,
+                             { prompt: "Select Project" } %>
+
+</div>
+
+<div class="form-group">
+
+  <%= form.label :assignee_id, "Assignee" %>
+
+  <%= form.collection_select :assignee_id,
+                             User.employee,
+                             :id,
+                             :name,
+                             { prompt: "Select Employee" } %>
+
+</div>
+
+
+  </div>
+
+  <div class="form-row">
+
+
+<div class="form-group">
+
+  <%= form.label :priority %>
+
+  <%= form.select :priority,
+                  Task.priorities.keys.map {
+                    |priority| [priority.humanize, priority]
+                  },
+                  { prompt: "Select Priority" } %>
+
+</div>
+
+<div class="form-group">
+
+  <%= form.label :status %>
+
+  <%= form.select :status,
+                  Task.statuses.keys.map {
+                    |status| [status.humanize, status]
+                  },
+                  { prompt: "Select Status" } %>
+
+</div>
+
+
+  </div>
+
+  <div class="form-group">
+
+<%= form.label :due_date, "Due Date" %>
+
+<%= form.date_field :due_date %>
+
+
+  </div>
+
+  <div class="form-group">
+
+<%= form.label :attachment, "Attachment" %>
+
+<%= form.file_field :attachment %>
+
+<small>
+  Upload a file related to this task.
+</small>
+
+
+  </div>
+
+  <div class="form-actions">
+
+<%= form.submit(
+      task.persisted? ? "Update Task" : "Create Task",
+      class: "button button-primary"
+    ) %>
+
+<%= link_to "Cancel",
+            tasks_path,
+            class: "button button-secondary" %>
+
+
+  </div>
+
+<% end %>
