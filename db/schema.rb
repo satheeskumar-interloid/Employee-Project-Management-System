@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_19_133956) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_19_161722) do
   create_table "projects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -38,7 +38,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_19_133956) do
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
-    t.integer "role"
+    t.integer "role", default: 1, null: false
     t.integer "sign_in_count"
     t.string "unconfirmed_email"
     t.string "unlock_token"
