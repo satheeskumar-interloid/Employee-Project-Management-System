@@ -9,9 +9,7 @@ class DashboardController < ApplicationController
       @employees_count = User.employee.count
     else
       # Employee sees their own work
-      @projects_count =
-        current_user.projects.count +
-        current_user.member_projects
+      @projects_count = current_user.projects.count +current_user.member_projects
                     .where.not(id: current_user.projects.select(:id))
                     .count
       @tasks_count = current_user.assigned_tasks.count

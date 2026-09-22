@@ -5,7 +5,7 @@ Rails.application.configure do
 
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
-  
+
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {

@@ -1,16 +1,11 @@
 class Project < ApplicationRecord
-  belongs_to :owner,
-             class_name: "User"
+  belongs_to :owner, class_name: "User"
 
-  has_many :project_members,
-           dependent: :destroy
+  has_many :project_members, dependent: :destroy
 
-  has_many :members,
-           through: :project_members,
-           source: :user
+  has_many :members, through: :project_members, source: :user
 
-  has_many :tasks,
-           dependent: :destroy
+  has_many :tasks, dependent: :destroy
 
   enum :status, {
     planning: 0,
