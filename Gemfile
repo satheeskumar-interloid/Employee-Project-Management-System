@@ -3,8 +3,8 @@ source "https://rubygems.org"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.1.3", ">= 8.1.3.1"
 
-#Rails authentication:
-gem 'devise', '>= 5.0.4'
+# Rails authentication:
+gem "devise", ">= 5.0.4"
 
 gem "json", "2.21.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]

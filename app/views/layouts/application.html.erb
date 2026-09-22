@@ -24,8 +24,6 @@
   </head>
 
   <body>
-
-
     <header class="navbar">
       <div class="container nav-content">
 
@@ -33,7 +31,6 @@
 
         <nav>
           <% if user_signed_in? %>
-
             <%= link_to "Dashboard", root_path %>
             <%= link_to "Projects", projects_path %>
 
@@ -41,18 +38,10 @@
               <%= current_user.name %>
             </span>
 
-            <%= button_to "Logout",
-                          destroy_user_session_path,
-                          method: :delete,
-                          class: "logout-button" %>
-
+            <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "logout-button" %>
           <% else %>
-
             <%= link_to "Login", new_user_session_path %>
-            <%= link_to "Register",
-                        new_user_registration_path,
-                        class: "button button-primary" %>
-
+            <%= link_to "Register", new_user_registration_path, class: "button button-primary" %>
           <% end %>
         </nav>
 
