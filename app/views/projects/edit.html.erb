@@ -1,12 +1,24 @@
-<% content_for :title, "Editing project" %>
+<% content_for :title, "Edit Project" %>
 
-<h1>Editing project</h1>
+<div class="page-header">
+  <div>
+    <h1>Edit Project</h1>
+    <p>Update project details and manage project members.</p>
+  </div>
 
-<%= render "form", project: @project %>
+  <div class="actions">
+    <%= link_to "Back to Projects",
+                projects_path,
+                class: "button button-secondary" %>
 
-<br>
+    <%= link_to "View Project",
+                project_path(@project),
+                class: "button button-secondary" %>
+  </div>
+</div>
 
-<div>
-  <%= link_to "Show this project", @project %> |
-  <%= link_to "Back to projects", projects_path %>
+<div class="card">
+
+  <%= render "form", project: @project %>
+
 </div>

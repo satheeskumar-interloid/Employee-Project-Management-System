@@ -38,11 +38,24 @@ def new
 end
 
 def create
-  project = policy_scope(Project).find(task_params[:project_id])
+  @task = Task.new(task_params)
 
-  @task = project.tasks.build(
-    task_params.except(:project_id)
-  )
+  @projects = policy_scope(Project)
+  @employees = User.employee
+
+  # Validate required fields first
+  if @task.invalid?
+    flash.now[:alert] = "All fields are required."
+
+    render :new,
+           status: :unprocessable_entity
+    return
+  end
+
+  # Authorization comes after validation
+  project = @projects.find(@task.project_id)
+
+  @task.project = project
 
   authorize @task
 
@@ -50,9 +63,6 @@ def create
     redirect_to @task,
                 notice: "Task created successfully."
   else
-    @projects = policy_scope(Project)
-    @employees = User.employee
-
     render :new,
            status: :unprocessable_entity
   end
