@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-
   include Pundit::Authorization
 
   before_action :configure_permitted_parameters,
@@ -13,7 +12,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(
       :sign_up,
-      keys: [:name]
+      keys: [ :name ]
     )
   end
 
@@ -21,8 +20,10 @@ class ApplicationController < ActionController::Base
     root_path
   end
 
-  def user_not_authorized
-    redirect_to root_path,
-                alert: "You are not authorized to perform this action."
+ def user_not_authorized
+    redirect_back(
+      fallback_location: root_path,
+      alert: "You are not authorized to perform this action."
+    )
   end
 end

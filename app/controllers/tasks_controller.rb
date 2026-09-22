@@ -1,9 +1,8 @@
 class TasksController < ApplicationController
-
   before_action :authenticate_user!
 
   before_action :set_task,
-                only: [:show, :edit, :update, :destroy]
+                only: [ :show, :edit, :update, :destroy ]
 
  def index
   @tasks = policy_scope(Task)
@@ -36,22 +35,32 @@ def new
   @task = Task.new
   @projects = policy_scope(Project)
   @employees = User.employee
-  authorize @task
 end
 
-  def create
-    @task = Task.new(task_params)
+def create
+  project = policy_scope(Project).find(task_params[:project_id])
 
-    authorize @task
+  @task = project.tasks.build(
+    task_params.except(:project_id)
+  )
 
-    if @task.save
-      redirect_to @task,
-                  notice: "Task created successfully."
-    else
-      render :new,
-             status: :unprocessable_entity
-    end
+  authorize @task
+
+  if @task.save
+    redirect_to @task,
+                notice: "Task created successfully."
+  else
+    @projects = policy_scope(Project)
+    @employees = User.employee
+
+    render :new,
+           status: :unprocessable_entity
   end
+
+rescue ActiveRecord::RecordNotFound
+  redirect_to tasks_path,
+              alert: "You are not authorized to create a task for this project."
+end
 
  def edit
   @projects = policy_scope(Project)

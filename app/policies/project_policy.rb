@@ -1,5 +1,4 @@
 class ProjectPolicy < ApplicationPolicy
-
   def index?
     user.present?
   end
@@ -23,20 +22,19 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   class Scope < ApplicationPolicy::Scope
-
     def resolve
       if user.admin?
         scope.all
       else
-        scope
-          .joins(:project_members)
-          .where(project_members: { user_id: user.id })
+       scope
+          .where(owner_id: user.id)
           .or(
-            scope.where(owner_id: user.id)
+            scope.where(
+              id: user.member_projects.select(:id)
+            )
           )
           .distinct
       end
     end
-
   end
 end

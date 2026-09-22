@@ -4,7 +4,7 @@
     <p>Manage and track project tasks.</p>
   </div>
 
-<% if policy(Task).create? %>
+<% if current_user.admin? || current_user.employee? %>
 <%= link_to "New Task",
 new_task_path,
 class: "button button-primary" %>
@@ -163,7 +163,7 @@ class: "button button-primary" %>
     <p>There are no tasks matching your search or filter.</p>
 
 
-<% if policy(Task).create? %>
+<% if current_user.admin? || current_user.employee? %>
   <%= link_to "Create First Task",
               new_task_path,
               class: "button button-primary" %>

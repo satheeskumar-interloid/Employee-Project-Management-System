@@ -1,5 +1,4 @@
 class TaskPolicy < ApplicationPolicy
-
   def index?
     user.present?
   end
@@ -28,25 +27,25 @@ class TaskPolicy < ApplicationPolicy
       record.project.owner == user
   end
 
-  class Scope < ApplicationPolicy::Scope
-
-    def resolve
-      if user.admin?
-        scope.all
-      else
-        scope
-          .joins(project: :project_members)
-          .where(
-            project_members: {
-              user_id: user.id
-            }
+class Scope < ApplicationPolicy::Scope
+  def resolve
+    if user.admin?
+      scope.all
+    else
+      scope
+        .where(assignee_id: user.id)
+        .or(
+          scope.where(
+            project_id: user.member_projects.select(:id)
           )
-          .or(
-            scope.where(assignee_id: user.id)
+        )
+        .or(
+          scope.where(
+            project_id: user.projects.select(:id)
           )
-          .distinct
-      end
+        )
+        .distinct
     end
-
   end
+end
 end
