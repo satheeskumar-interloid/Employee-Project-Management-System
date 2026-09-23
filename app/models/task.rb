@@ -1,8 +1,6 @@
 class Task < ApplicationRecord
   belongs_to :project
-
-  belongs_to :assignee,
-             class_name: "User"
+  belongs_to :assignee, class_name: "User"
 
   enum :priority, {
     low: 0,
@@ -23,7 +21,7 @@ class Task < ApplicationRecord
 
   validate :due_date_not_before_project_start
 
-  has_one_attached :attachment
+  has_many_attached :attachments
 
   private
 
@@ -33,10 +31,7 @@ class Task < ApplicationRecord
     return if project.start_date.blank?
 
     if due_date < project.start_date
-      errors.add(
-        :due_date,
-        "cannot be before project start date"
-      )
+      errors.add(:due_date, "cannot be before project start date")
     end
   end
 end

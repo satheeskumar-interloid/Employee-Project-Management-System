@@ -12,20 +12,17 @@
 
   <div class="form-group">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, placeholder: "Enter Project name", autofocus: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :description %>
-    <%= form.text_area :description %>
+    <%= form.text_area :description, placeholder: "Description.." %>
   </div>
 
   <div class="form-group">
     <%= form.label :status %>
-    <%= form.select :status,
-                    Project.statuses.keys.map {
-                      |status| [status.humanize, status]
-                    } %>
+    <%= form.select :status, Project.statuses.keys.map { |status| [status.humanize, status] } %>
   </div>
 
   <div class="form-group">
@@ -37,31 +34,39 @@
     <%= form.label :end_date %>
     <%= form.date_field :end_date %>
   </div>
-<div class="form-group">
-  <%= form.label :member_ids, "Project Members" %>
 
-  <div class="member-list">
+  <div class="form-group">
+    <%= form.label :attachments, "Attachments" %>
+    <%= form.file_field :attachments, multiple: true  %>
 
-    <% User.employee.each do |employee| %>
+    <small>
+      Upload a file related to this task.
+    </small>
+  </div>
 
-      <div class="member-checkbox">
-        <%= check_box_tag "project[member_ids][]",
-                          employee.id,
-                          project.member_ids.include?(employee.id),
-                          id: "member_#{employee.id}" %>
+  <div class="form-group">
+    <%= form.label :member_ids, "Project Members" %>
 
-        <%= label_tag "member_#{employee.id}" do %>
-          <strong><%= employee.name %></strong>
-          <span><%= employee.email %></span>
-        <% end %>
+    <details class="members-dropdown">
+
+      <summary class="members-dropdown-button">
+        <span>Select Project Members</span>
+        <span class="dropdown-arrow">▼</span>
+      </summary>
+
+      <div class="members-dropdown-menu">
+
+        <%= form.collection_select :member_ids, User.employee, :id, :name, {}, { multiple: true, class: "project-members-select" } %>
+
       </div>
 
-    <% end %>
+    </details>
 
+    <small class="form-help">
+      Select one or more employees for this project.
+    </small>
   </div>
-</div>
 
-  <%= form.submit "Save Project",
-                  class: "button button-primary" %>
+  <%= form.submit "Save Project", class: "button button-primary" %>
 
 <% end %>

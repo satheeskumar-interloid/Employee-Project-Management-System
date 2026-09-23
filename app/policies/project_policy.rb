@@ -4,9 +4,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin? ||
-      record.owner == user ||
-      record.members.include?(user)
+    user.admin? || record.owner == user || record.members.include?(user)
   end
 
   def create?
@@ -26,13 +24,8 @@ class ProjectPolicy < ApplicationPolicy
       if user.admin?
         scope.all
       else
-       scope
-          .where(owner_id: user.id)
-          .or(
-            scope.where(
-              id: user.member_projects.select(:id)
-            )
-          )
+        scope.where(owner_id: user.id)
+          .or(scope.where(id: user.member_projects.select(:id)))
           .distinct
       end
     end

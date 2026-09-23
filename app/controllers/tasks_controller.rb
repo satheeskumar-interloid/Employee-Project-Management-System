@@ -3,25 +3,23 @@ class TasksController < ApplicationController
   before_action :set_task, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @tasks = policy_scope(Task)
+    @tasks = policy_scope(Task).includes(:project, :assignee)
 
     if params[:search].present?
-      @tasks = @tasks.where(
-        "title LIKE ?",
-        "%#{params[:search]}%"
-      )
+      @tasks = @tasks.where("title LIKE ?", "%#{params[:search]}%")
+    end
+
+    @tasks = Task.includes(:project, :assignee)
+    if params[:project_id].present?
+      @tasks = @tasks.where(project_id: params[:project_id])
     end
 
     if params[:status].present?
-      @tasks = @tasks.where(
-        status: params[:status]
-      )
+      @tasks = @tasks.where(status: params[:status])
     end
 
     if params[:priority].present?
-      @tasks = @tasks.where(
-        priority: params[:priority]
-      )
+      @tasks = @tasks.where(priority: params[:priority])
     end
   end
 
@@ -32,15 +30,11 @@ class TasksController < ApplicationController
   def new
     @task = Task.new
     @projects = policy_scope(Project)
-    @employees = User.employee
   end
 
   def create
     @task = Task.new(task_params)
     @projects = policy_scope(Project)
-    @employees = User.employee
-
-    # Validate required fields first
     if @task.invalid?
       flash.now[:alert] = "All fields are required."
 
@@ -48,25 +42,31 @@ class TasksController < ApplicationController
       return
     end
 
-    # Authorization comes after validation
-    project = @projects.find(@task.project_id)
-    @task.project = project
+    begin
+      project = @projects.find(@task.project_id)
 
-    authorize @task
+      authorize @task
 
-    if @task.save
-      redirect_to @task, notice: "Task created successfully."
-    else
-      render :new, status: :unprocessable_entity
-    end
+      unless project.members.exists?(@task.assignee_id)
+        @task.errors.add(:assignee, "must be a member of the selected project")
+        @projects = policy_scope(Project)
+        render :new, status: :unprocessable_entity
+        return
+      end
+
+      if @task.save
+        redirect_to @task, notice: "Task created successfully."
+      else
+        render :new, status: :unprocessable_entity
+      end
 
     rescue ActiveRecord::RecordNotFound
       redirect_to tasks_path, alert: "You are not authorized to create a task for this project."
+    end
   end
 
   def edit
     @projects = policy_scope(Project)
-    @employees = User.employee
     authorize @task
   end
 
@@ -99,10 +99,12 @@ class TasksController < ApplicationController
       :description,
       :priority,
       :status,
+      :start_date,
+      :end_date,
       :due_date,
       :project_id,
       :assignee_id,
-      :attachment
+      attachments: []
     )
   end
 end

@@ -48,6 +48,14 @@ class ProjectsController < ApplicationController
     redirect_to projects_path, notice: "Project deleted successfully."
   end
 
+  def members
+    @project = Project.find(params[:id])
+
+    authorize @project, :show?
+
+    render json: @project.members.select(:id, :name, :email)
+  end
+
   private
 
   def set_project
@@ -61,7 +69,8 @@ class ProjectsController < ApplicationController
       :status,
       :start_date,
       :end_date,
-      member_ids: []
+      member_ids: [],
+      attachments: []
     )
   end
 end

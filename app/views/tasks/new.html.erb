@@ -4,14 +4,11 @@
     <p>Create a new task and assign it to an employee.</p>
   </div>
 
-<%= link_to "Back to Tasks",
-tasks_path,
-class: "button button-secondary" %>
-
+  <%= link_to "Back to Tasks", tasks_path, class: "button button-secondary" %>
 </div>
 
 <div class="card form-card">
 
-<%= render "form", task: @task %>
+  <%= render "form", task: @task %>
 
 </div>

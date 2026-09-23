@@ -13,6 +13,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "dashboard#index"
 
-  resources :projects
+  resources :projects do
+    member do
+      get :members
+    end
+  end
   resources :tasks
 end
