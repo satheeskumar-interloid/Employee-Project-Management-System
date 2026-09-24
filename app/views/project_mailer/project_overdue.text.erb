@@ -1,0 +1,17 @@
+Project Overdue
+
+Hello,
+
+The following project has passed its deadline and is still not completed.
+
+Project: <%= @project.name %>
+End Date: <%= @project.end_date %>
+Days Overdue: <%= @overdue_days %>
+Current Status: <%= @project.status.humanize %>
+
+Please complete the project as soon as possible.
+
+This reminder will continue until the project is marked as completed.
+
+Regards,
+Employee Project Management System

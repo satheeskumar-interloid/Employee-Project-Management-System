@@ -1,0 +1,46 @@
+<h2>New Project Assigned</h2>
+
+<p>Hello,</p>
+
+<p>
+  You have been added as a member of the project
+  <strong><%= @project.name %></strong>.
+</p>
+
+<h3>Project Details</h3>
+
+<table>
+  <tr>
+    <td><strong>Project:</strong></td>
+    <td><%= @project.name %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Description:</strong></td>
+    <td><%= @project.description %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Start Date:</strong></td>
+    <td><%= @project.start_date %></td>
+  </tr>
+
+  <tr>
+    <td><strong>End Date:</strong></td>
+    <td><%= @project.end_date %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Status:</strong></td>
+    <td><%= @project.status.humanize %></td>
+  </tr>
+</table>
+
+<p>
+  Please review the project and complete your assigned work within the deadline.
+</p>
+
+<p>
+  Regards,<br>
+  Employee Project Management System
+</p>

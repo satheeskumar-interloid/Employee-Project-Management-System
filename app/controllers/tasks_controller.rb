@@ -9,7 +9,6 @@ class TasksController < ApplicationController
       @tasks = @tasks.where("title LIKE ?", "%#{params[:search]}%")
     end
 
-    @tasks = Task.includes(:project, :assignee)
     if params[:project_id].present?
       @tasks = @tasks.where(project_id: params[:project_id])
     end
@@ -35,34 +34,20 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     @projects = policy_scope(Project)
-    if @task.invalid?
-      flash.now[:alert] = "All fields are required."
 
+    project = @projects.find(@task.project_id)
+
+    authorize @task
+
+    if @task.save
+      TaskCreatedJob.perform_later(@task.id)
+      redirect_to @task, notice: "Task created successfully."
+    else
       render :new, status: :unprocessable_entity
-      return
     end
 
-    begin
-      project = @projects.find(@task.project_id)
-
-      authorize @task
-
-      unless project.members.exists?(@task.assignee_id)
-        @task.errors.add(:assignee, "must be a member of the selected project")
-        @projects = policy_scope(Project)
-        render :new, status: :unprocessable_entity
-        return
-      end
-
-      if @task.save
-        redirect_to @task, notice: "Task created successfully."
-      else
-        render :new, status: :unprocessable_entity
-      end
-
-    rescue ActiveRecord::RecordNotFound
-      redirect_to tasks_path, alert: "You are not authorized to create a task for this project."
-    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to tasks_path, alert: "You are not authorized to create a task for this project."
   end
 
   def edit
@@ -83,8 +68,11 @@ class TasksController < ApplicationController
   def destroy
     authorize @task
 
-    @task.destroy
+    if @task.destroy
     redirect_to tasks_path, notice: "Task deleted successfully."
+    else
+    redirect_to task_path(@task), alert: "Task could not be deleted."
+    end
   end
 
   private
@@ -101,7 +89,6 @@ class TasksController < ApplicationController
       :status,
       :start_date,
       :end_date,
-      :due_date,
       :project_id,
       :assignee_id,
       attachments: []

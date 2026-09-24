@@ -21,6 +21,7 @@ class ProjectsController < ApplicationController
     authorize @project
 
     if @project.save
+      ProjectCreatedJob.perform_later(@project.id)
       redirect_to @project, notice: "Project created successfully."
     else
       render :new, status: :unprocessable_entity
@@ -53,7 +54,7 @@ class ProjectsController < ApplicationController
 
     authorize @project, :show?
 
-    render json: @project.members.select(:id, :name, :email)
+    render json: @project.members.select(:id, :name)
   end
 
   private

@@ -1,0 +1,50 @@
+<h2>New Task Assigned</h2>
+
+<p>Hello,</p>
+
+<p>
+  A new task has been assigned to you.
+</p>
+
+<h3>Task Details</h3>
+
+<table>
+  <tr>
+    <td><strong>Task:</strong></td>
+    <td><%= @task.title %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Project:</strong></td>
+    <td><%= @project.name %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Description:</strong></td>
+    <td><%= @task.description %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Priority:</strong></td>
+    <td><%= @task.priority.humanize %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Status:</strong></td>
+    <td><%= @task.status.humanize %></td>
+  </tr>
+
+  <tr>
+    <td><strong>End Date:</strong></td>
+    <td><%= @task.end_date %></td>
+  </tr>
+</table>
+
+<p>
+  Please complete the task before the deadline.
+</p>
+
+<p>
+  Regards,<br>
+  Employee Project Management System
+</p>

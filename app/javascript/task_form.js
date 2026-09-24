@@ -1,8 +1,8 @@
 document.addEventListener("turbo:load", () => {
-    const projectSelect = document.getElementById("task_project_id");
-    const assigneeSelect = document.getElementById("task_assignee_id");
+  const projectSelect = document.getElementById("task_project_id");
+  const assigneeSelect = document.getElementById("task_assignee_id");
 
-if (!projectSelect || !assigneeSelect) {
+  if (!projectSelect || !assigneeSelect) {
     return;
   }
 
@@ -22,9 +22,7 @@ if (!projectSelect || !assigneeSelect) {
       return;
     }
 
-    fetch(`/projects/${projectId}/members`)
-      .then(response => {
-        if (!response.ok) {
+    fetch(`/projects/${projectId}/members`).then(response => { if (!response.ok) {
           throw new Error("Failed to load project members");
         }
 
@@ -43,8 +41,7 @@ if (!projectSelect || !assigneeSelect) {
         });
 
         // Keep selected assignee when editing
-        const selectedAssignee =
-          assigneeSelect.dataset.selected;
+        const selectedAssignee = assigneeSelect.dataset.selected;
 
         if (selectedAssignee) {
           assigneeSelect.value = selectedAssignee;
@@ -56,10 +53,7 @@ if (!projectSelect || !assigneeSelect) {
       });
   }
 
-  projectSelect.addEventListener(
-    "change",
-    loadProjectMembers
-  );
+  projectSelect.addEventListener( "change", loadProjectMembers );
 
   loadProjectMembers();
 });

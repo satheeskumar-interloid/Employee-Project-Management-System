@@ -1,0 +1,28 @@
+<h2>Project Deadline Reminder</h2>
+
+<p>Hello,</p>
+
+<p>
+  This is a reminder that the following project is due tomorrow.
+</p>
+
+<h3><%= @project.name %></h3>
+
+<p>
+  <strong>End Date:</strong>
+  <%= @project.end_date %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @project.status.humanize %>
+</p>
+
+<p>
+  Please make sure the project is completed before the deadline.
+</p>
+
+<p>
+  Regards,<br>
+  Employee Project Management System
+</p>

@@ -33,7 +33,7 @@
       <strong>Status</strong>
 
       <span class="status-badge status-<%= @task.status %>">
-        <%= @task.status.humanize %>
+        <%= @task.status&.humanize || "Notset" %>
       </span>
     </div>
 
@@ -41,17 +41,10 @@
       <strong>Priority</strong>
 
       <span class="priority-<%= @task.priority %>">
-        <%= @task.priority.humanize %>
+        <%= @task.priority&.humanize || "Not Set " %>
       </span>
     </div>
 
-    <div class="detail-row">
-      <strong>Due Date</strong>
-
-      <span>
-        <%= @task.due_date.strftime("%d %B %Y") %>
-      </span>
-    </div>
 
     <div class="detail-row">
       <strong>Start Date</strong>

@@ -1,0 +1,44 @@
+<h2>Task Overdue</h2>
+
+<p>Hello,</p>
+
+<p>
+  The following task has passed its deadline and is still not completed.
+</p>
+
+<h3><%= @task.title %></h3>
+
+<table>
+  <tr>
+    <td><strong>Project:</strong></td>
+    <td><%= @project.name %></td>
+  </tr>
+
+  <tr>
+    <td><strong>End Date:</strong></td>
+    <td><%= @task.end_date %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Days Overdue:</strong></td>
+    <td><%= @overdue_days %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Status:</strong></td>
+    <td><%= @task.status.humanize %></td>
+  </tr>
+</table>
+
+<p>
+  Please complete the task as soon as possible.
+</p>
+
+<p>
+  This reminder will continue until the task is marked as completed.
+</p>
+
+<p>
+  Regards,<br>
+  Employee Project Management System
+</p>

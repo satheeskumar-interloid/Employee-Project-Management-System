@@ -1,0 +1,39 @@
+<h2>Project Overdue</h2>
+
+<p>Hello,</p>
+
+<p>
+  The following project has passed its deadline and is still not completed.
+</p>
+
+<h3><%= @project.name %></h3>
+
+<table>
+  <tr>
+    <td><strong>End Date:</strong></td>
+    <td><%= @project.end_date %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Days Overdue:</strong></td>
+    <td><%= @overdue_days %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Current Status:</strong></td>
+    <td><%= @project.status.humanize %></td>
+  </tr>
+</table>
+
+<p>
+  Please complete the project as soon as possible.
+</p>
+
+<p>
+  This reminder will continue until the project is marked as completed.
+</p>
+
+<p>
+  Regards,<br>
+  Employee Project Management System
+</p>

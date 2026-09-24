@@ -17,21 +17,22 @@ class Task < ApplicationRecord
 
   validates :title, presence: true
   validates :description, presence: true
-  validates :due_date, presence: true
+  validates :start_date, presence: true
+  validates :end_date, presence: true
 
-  validate :due_date_not_before_project_start
+  validate :end_date_not_before_project_start
 
   has_many_attached :attachments
 
   private
 
-  def due_date_not_before_project_start
-    return if due_date.blank?
+  def end_date_not_before_project_start
+    return if end_date.blank?
     return if project.blank?
     return if project.start_date.blank?
 
-    if due_date < project.start_date
-      errors.add(:due_date, "cannot be before project start date")
+    if end_date < project.start_date
+      errors.add(:end_date, "cannot be before project start date")
     end
   end
 end

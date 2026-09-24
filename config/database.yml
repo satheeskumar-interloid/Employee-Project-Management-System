@@ -18,8 +18,14 @@ default: &default
   socket: /var/run/mysqld/mysqld.sock
 
 development:
-  <<: *default
-  database: employee_project_management_system_development
+  primary:
+    <<: *default
+    database: employee_project_management_system_development
+
+  queue:
+    <<: *default
+    database: employee_project_management_system_development_queue
+    migrations_paths: db/queue_migrate
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
