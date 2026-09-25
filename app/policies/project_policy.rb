@@ -24,9 +24,7 @@ class ProjectPolicy < ApplicationPolicy
       if user.admin?
         scope.all
       else
-        scope.where(owner_id: user.id)
-          .or(scope.where(id: user.member_projects.select(:id)))
-          .distinct
+        scope.where(owner_id: user.id).or(scope.where(id: user.member_projects.select(:id))).distinct
       end
     end
   end

@@ -5,14 +5,10 @@
     <h1>New Project</h1>
     <p>Create a new project and add employees as project members.</p>
   </div>
-
   <div class="actions">
     <%= link_to "Back to Projects", projects_path, class: "button button-secondary" %>
   </div>
 </div>
-
 <div class="card">
-
   <%= render "form", project: @project %>
-
 </div>

@@ -25,11 +25,8 @@ document.addEventListener("turbo:load", () => {
     fetch(`/projects/${projectId}/members`).then(response => { if (!response.ok) {
           throw new Error("Failed to load project members");
         }
-
-        return response.json();
-      })
-      .then(members => {
-
+        return response.json(); } ).then(members => {
+          
         members.forEach(member => {
 
           const option = document.createElement("option");

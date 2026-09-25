@@ -5,9 +5,7 @@ class TaskDeadlineReminderJob < ApplicationJob
     today = Date.current
 
     Task
-      .where.not(status: :completed)
-      .where.not(end_date: nil)
-      .find_each do |task|
+      .where.not(status: :completed).where.not(end_date: nil).find_each do |task|
       if task.end_date == today + 1.day
         send_deadline_reminder(task)
       elsif task.end_date <= today

@@ -1,7 +1,5 @@
 <div class="auth-card">
-
   <h2>Welcome Back</h2>
-
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
     <div class="form-group">
@@ -21,9 +19,7 @@
     <%= f.submit "Login", class: "button auth-button" %>
 
   <% end %>
-
   <div class="actions">
     <%= render "devise/shared/links" %>
   </div>
-
 </div>

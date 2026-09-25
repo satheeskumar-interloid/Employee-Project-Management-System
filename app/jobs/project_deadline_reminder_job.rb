@@ -5,9 +5,7 @@ class ProjectDeadlineReminderJob < ApplicationJob
     today = Date.current
 
     Project
-      .where.not(status: :completed)
-      .where.not(end_date: nil)
-      .find_each do |project|
+      .where.not(status: :completed).where.not(end_date: nil).find_each do |project|
       if project.end_date == today + 1.day
         send_deadline_reminder(project)
       elsif project.end_date <= today
@@ -31,9 +29,11 @@ class ProjectDeadlineReminderJob < ApplicationJob
   end
 
   def recipients(project)
-    emails = project.members.pluck(:email)
-    emails << project.owner.email
-
+    emails = []
+    if project.members.exists?
+      emails = project.members.pluck(:email)
+    end
+    emails << project.owner.email if project.owner&.email.present?
     emails.compact.uniq
   end
 end

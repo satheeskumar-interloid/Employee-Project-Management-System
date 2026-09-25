@@ -1,7 +1,6 @@
 <%= form_with model: task do |form| %>
 
   <% if task.errors.any? %>
-
     <div class="flash flash-error">
       <h3>
         <%= pluralize(task.errors.count, "error") %>
@@ -13,9 +12,7 @@
         <% end %>
       </ul>
     </div>
-
   <% end %>
-
   <div class="form-group">
     <%= form.label :title, "Task Title" %>
     <%= form.text_field :title, placeholder: "Enter task title", autofocus: true %>
@@ -28,7 +25,6 @@
     <%= form.label :description, "Description" %>
     <%= form.text_area :description, rows: 5, placeholder: "Describe the task..." %>
   </div>
-
   <div class="form-row">
     <div class="form-group">
       <%= form.label :project_id, "Project" %>
@@ -39,7 +35,6 @@
       <%= form.collection_select :assignee_id, [], :id, :name, { prompt: "Select Assignee" }, { id: "task_assignee_id", required: true } %>
     </div>
   </div>
-
   <div class="form-row">
     <div class="form-group">
       <%= form.label :priority %>
@@ -60,9 +55,7 @@
   </div>
   <div class="form-group">
     <%= form.label :attachments, "Attachments" %>
-
     <% if task.persisted? %>
-
       <% if task.attachments.attached? %>
         <div class="existing-attachments">
           <% task.attachments.each do |attachment| %>
@@ -72,27 +65,16 @@
           <% end %>
         </div>
       <% end %>
-
       <%= form.file_field :attachments, multiple: true %>
-
-      <small>
-        Upload additional files if needed.
-      </small>
-
+      <small> Upload additional files if needed. </small>
     <% else %>
-
       <%= form.file_field :attachments, multiple: true, required: true %>
-
-      <small>
-        At least one attachment is required.
-      </small>
-
+      <small> At least one attachment is required. </small>
     <% end %>
   </div>
-
   <div class="form-actions">
     <%= form.submit( task.persisted? ? "Update Task" : "Create Task", class: "button button-primary" ) %>
     <%= link_to "Cancel", tasks_path, class: "button button-secondary" %>
   </div>
-
+  
 <% end %>

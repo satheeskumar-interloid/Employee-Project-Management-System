@@ -18,6 +18,8 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
@@ -26,27 +28,21 @@
   <body>
     <header class="navbar">
       <div class="container nav-content">
-
         <%= link_to "Employee Project Management System", root_path, class: "logo" %>
-
         <nav>
           <% if user_signed_in? %>
             <%= link_to "Dashboard", root_path %>
             <%= link_to "Projects", projects_path %>
             <%= link_to "Tasks", tasks_path %>
-
             <span class="user-name">
               <%= current_user.name %>
             </span>
-
             <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "button button-primary" %>
-
           <% else %>
             <%= link_to "Login", new_user_session_path %>
             <%= link_to "Register", new_user_registration_path, class: "button button-primary" %>
           <% end %>
         </nav>
-
       </div>
     </header>
 

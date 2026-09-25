@@ -3,16 +3,12 @@
     <h1>Tasks</h1>
     <p>Manage and track project tasks.</p>
   </div>
-
   <% if current_user.admin? || current_user.employee? %>
   <%= link_to "New Task", new_task_path, class: "button button-primary" %>
   <% end %>
-
 </div>
-
 <div class="card">
   <%= form_with url: tasks_path, method: :get, local: true do |form| %>
-
     <div class="filter-grid">
       <div class="form-group">
         <%= form.label :search, "Search" %>
@@ -39,15 +35,12 @@
     </div>
   <% end %>
 </div>
-
 <% if @tasks.any? %>
   <div class="task-grid">
     <% @tasks.each do |task| %>
       <div class="task-card">
         <div class="task-card-header">
-          <h2>
-            <%= link_to task.title, task_path(task) %>
-          </h2>
+          <h2> <%= link_to task.title, task_path(task) %> </h2>
           <span class="status-badge status-<%= task.status %>"> <%= task.status&.humanize || "Not set" %> </span>
         </div>
         <p class="task-description">
@@ -56,15 +49,11 @@
         <div class="task-details">
           <div>
             <strong>Project</strong>
-            <span>
-              <%= task.project.name %>
-            </span>
+            <span> <%= task.project.name %> </span>
           </div>
           <div>
             <strong>Assignee</strong>
-            <span>
-              <%= task.assignee.name %>
-            </span>
+            <span> <%= task.assignee.name %> </span>
           </div>
           <div>
             <strong>Priority</strong>
@@ -74,18 +63,13 @@
           </div>
           <div>
             <strong>Start Date</strong>
-            <span>
-              <%= task.start_date.strftime("%d %b %Y") %>
-            </span>
+            <span> <%= task.start_date.strftime("%d %b %Y") %> </span>
           </div>
           <div>
             <strong>End Date</strong>
-            <span>
-              <%= task.end_date.strftime("%d %b %Y") %>
-            </span>
+            <span> <%= task.end_date.strftime("%d %b %Y") %> </span>
           </div>
         </div>
-
         <div class="task-actions">
           <%= link_to "View", task_path(task), class: "button button-secondary" %>
           <% if policy(task).edit? %>
@@ -100,7 +84,6 @@
     <% end %>
   </div>
 <% else %>
-
   <div class="card empty-state">
     <h2>No tasks found</h2>
     <p>There are no tasks matching your search or filter.</p>
@@ -108,5 +91,4 @@
       <%= link_to "Create First Task", new_task_path, class: "button button-primary" %>
     <% end %>
   </div>
-  
 <% end %>

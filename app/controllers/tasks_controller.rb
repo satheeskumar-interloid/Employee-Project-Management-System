@@ -32,9 +32,6 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
-    @projects = policy_scope(Project)
-
-    project = @projects.find(@task.project_id)
 
     authorize @task
 
@@ -81,16 +78,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(
-      :title,
-      :description,
-      :priority,
-      :status,
-      :start_date,
-      :end_date,
-      :project_id,
-      :assignee_id,
-      attachments: []
-    )
+    params.require(:task).permit( :title, :description, :priority, :status, :start_date, :end_date, :project_id, :assignee_id, attachments: [] )
   end
 end

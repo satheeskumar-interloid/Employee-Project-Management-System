@@ -9,7 +9,6 @@
       </ul>
     </div>
   <% end %>
-
   <div class="form-group">
     <%= form.label :name %>
     <%= form.text_field :name, placeholder: "Enter Project name", autofocus: true %>
@@ -32,9 +31,7 @@
   </div>
   <div class="form-group">
     <%= form.label :attachments, "Attachments" %>
-
     <% if project.persisted? %>
-
       <% if project.attachments.attached? %>
         <div class="existing-attachments">
           <% project.attachments.each do |attachment| %>
@@ -44,45 +41,26 @@
           <% end %>
         </div>
       <% end %>
-
       <%= form.file_field :attachments, multiple: true %>
-
-      <small>
-        Upload additional files if needed.
-      </small>
-
+      <small> Upload additional files if needed. </small>
     <% else %>
-
       <%= form.file_field :attachments, multiple: true, required: true %>
-
-      <small>
-        At least one attachment is required.
-      </small>
-
+      <small> At least one attachment is required. </small>
     <% end %>
   </div>
-
   <div class="form-group">
     <%= form.label :member_ids, "Project Members" %>
-
     <details class="members-dropdown">
-
       <summary class="members-dropdown-button">
         <span>Select Project Members</span>
         <span class="dropdown-arrow">▼</span>
       </summary>
-
       <div class="members-dropdown-menu">
         <%= form.collection_select :member_ids, User.employee, :id, :name, {}, { multiple: true, class: "project-members-select" } %>
       </div>
-
     </details>
-
-    <small class="form-help">
-      Select one or more employees for this project.
-    </small>
+    <small class="form-help"> Select one or more employees for this project. </small>
   </div>
-
   <%= form.submit "Save Project", class: "button button-primary" %>
-
+  
 <% end %>

@@ -3,12 +3,12 @@ class ProjectCreatedJob < ApplicationJob
 
   def perform(project_id)
     project = Project.find(project_id)
-
-    recipients = project.members.pluck(:email)
-
+    recipients = []
+    if project.members.exists?
+      recipients = project.members.pluck(:email)
+    end
     recipients << project.owner.email
-
-    recipients.uniq.each do |email|
+    recipients.compact.uniq.each do |email|
       ProjectMailer.project_created(project, email).deliver_now
     end
   end
