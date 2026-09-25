@@ -9,31 +9,23 @@
 <% @projects.each do |project| %>
 
   <div class="card">
-
     <h2>
       <%= link_to project.name, project_path(project) %>
     </h2>
-
     <p>
       <%= project.description %>
     </p>
-
     <p>
       Status: <strong> <%= project.status.humanize %> </strong>
     </p>
-
     <div class="actions">
-
       <% if policy(project).edit? %>
         <%= link_to "Edit", edit_project_path(project), class: "button button-secondary" %>
       <% end %>
-
       <% if policy(project).destroy? %>
         <%= button_to "Delete", project_path(project), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "button button-danger" %>
       <% end %>
-
     </div>
-
   </div>
 
 <% end %>

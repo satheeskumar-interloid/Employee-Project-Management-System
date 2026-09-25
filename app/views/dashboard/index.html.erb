@@ -1,54 +1,40 @@
 <div class="dashboard">
 
   <% if current_user.admin? %>
-
     <h1>Admin Dashboard</h1>
-
     <p>
       Welcome, <%= current_user.name %>
     </p>
-
     <div class="dashboard-cards">
-
       <div class="dashboard-card">
         <h3>Employees</h3>
         <p><%= @employees_count %></p>
       </div>
-
       <div class="dashboard-card">
         <h3>Projects</h3>
         <p><%= @projects_count %></p>
       </div>
-
       <div class="dashboard-card">
         <h3>Tasks</h3>
         <p><%= @tasks_count %></p>
       </div>
-
     </div>
-
   <% else %>
 
     <h1>Employee Dashboard</h1>
-
     <p>
       Welcome, <%= current_user.name %>
     </p>
-
     <div class="dashboard-cards">
-
       <div class="dashboard-card">
         <h3>My Projects</h3>
         <p><%= @projects_count %></p>
       </div>
-
       <div class="dashboard-card">
         <h3>My Tasks</h3>
         <p><%= @tasks_count %></p>
       </div>
-
     </div>
-
   <% end %>
 
 </div>

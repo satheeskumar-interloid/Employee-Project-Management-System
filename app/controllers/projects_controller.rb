@@ -1,5 +1,4 @@
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_project, only: [ :show, :edit, :update, :destroy ]
 
   def index
@@ -45,8 +44,11 @@ class ProjectsController < ApplicationController
   def destroy
     authorize @project
 
-    @project.destroy
-    redirect_to projects_path, notice: "Project deleted successfully."
+    if @project.destroy
+      redirect_to projects_path, notice: "Project deleted successfully."
+    else
+      redirect_to @project, alert: "Project could not be deleted."
+    end
   end
 
   def members
