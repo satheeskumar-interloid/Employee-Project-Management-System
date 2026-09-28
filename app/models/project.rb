@@ -18,6 +18,8 @@ class Project < ApplicationRecord
   validates :description, presence: true
   validates :start_date, presence: true
   validates :end_date, presence: true
+  validates :attachments, presence: true
+  validates :project_members, presence:true
 
   validate :end_date_after_start_date
 

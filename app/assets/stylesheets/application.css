@@ -307,17 +307,13 @@ main {
   color: #8a94a3;
 }
 
-
-
    /* LOWER DASHBOARD SECTION */
-
 
 .dashboard-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
 }
-
 
 /* Panel */
 
@@ -327,7 +323,6 @@ main {
   border-radius: 12px;
   padding: 24px;
 }
-
 
 /* Panel header */
 
@@ -348,10 +343,8 @@ main {
   color: #8a94a3;
 }
 
-
 /* 
    QUICK ACTIONS */
-
 
 .quick-actions {
   display: flex;
@@ -402,9 +395,7 @@ main {
   color: #8a94a3;
 }
 
-
    /* SYSTEM OVERVIEW */
-
 
 .overview-list {
   display: flex;
@@ -438,19 +429,13 @@ main {
   color: #172033;
 }
 
-
-
    /* EMPLOYEE DASHBOARD */
-
 
 .employee-section {
   grid-template-columns: 1fr 1fr;
 }
 
-
-
    /* RESPONSIVE */
-
 
 @media (max-width: 900px) {
   .dashboard-cards {
@@ -475,8 +460,8 @@ main {
   }
 }
 
-
 /* Task styles */
+
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -696,7 +681,6 @@ main {
   }
 }
 
-
 /* Project Members Dropdown */
 
 .members-dropdown {
@@ -824,13 +808,6 @@ main {
   border-radius: 6px;
   display: inline-block;
 }
-
-/* .project-card {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 20px;
-} */
-
 
 .projects-grid {
   display: grid;
@@ -993,4 +970,4 @@ main {
   }
 }
 
-/* project form */
+/* attachments: */

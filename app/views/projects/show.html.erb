@@ -3,18 +3,14 @@
     <h1><%= @project.name %></h1>
     <p>Project details and information</p>
   </div>
-
   <div class="actions">
     <% if policy(@project).edit? %>
       <%= link_to "Edit Project", edit_project_path(@project), class: "button button-secondary" %>
     <% end %>
-
     <%= link_to "Back to Projects", projects_path, class: "button button-secondary" %>
   </div>
 </div>
-
 <div class="card">
-
   <div class="project-detail">
     <h3>Project Information</h3>
     <p>
@@ -43,16 +39,13 @@
     </p>
   </div>
 </div>
-
 <div class="card">
   <h3>Project Members</h3>
-
   <% if @project.members.any? %>
     <ul>
       <% @project.members.each do |member| %>
         <li>
-          <strong><%= member.name %></strong>
-          - <%= member.email %>
+          <strong><%= member.name %></strong> - <%= member.email %>
         </li>
       <% end %>
     </ul>
@@ -60,7 +53,6 @@
     <p>No members have been added to this project.</p>
   <% end %>
 </div>
-
 <div class="card">
   <h3>Tasks</h3>
   <% if @project.tasks.any? %>
@@ -75,11 +67,8 @@
     <p>No tasks have been created for this project.</p>
   <% end %>
 </div>
-
 <div class="card">
-
   <h2>Attachments</h2>
-
   <% if @project.attachments.attached? %>
     <div class="attachments">
       <% @project.attachments.each do |attachment| %>
@@ -95,7 +84,6 @@
     <p>No attachments uploaded.</p>
   <% end %>
 </div>
-
 <div class="actions">
   <% if policy(@project).destroy? %>
     <%= button_to "Delete Project", @project, method: :delete, data: { turbo_confirm: "Are you sure you want to delete this project?" },

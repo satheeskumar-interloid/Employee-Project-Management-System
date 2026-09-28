@@ -1,5 +1,4 @@
 <%= form_with model: project do |form| %>
-
   <% if project.errors.any? %>
     <div class="flash flash-error">
       <ul>
@@ -44,7 +43,7 @@
       <%= form.file_field :attachments, multiple: true %>
       <small> Upload additional files if needed. </small>
     <% else %>
-      <%= form.file_field :attachments, multiple: true, required: true %>
+      <%= form.file_field :attachments, multiple: true %>
       <small> At least one attachment is required. </small>
     <% end %>
   </div>
@@ -62,5 +61,4 @@
     <small class="form-help"> Select one or more employees for this project. </small>
   </div>
   <%= form.submit "Save Project", class: "button button-primary" %>
-  
 <% end %>

@@ -4,8 +4,7 @@ class ProjectDeadlineReminderJob < ApplicationJob
   def perform
     today = Date.current
 
-    Project
-      .where.not(status: :completed).where.not(end_date: nil).find_each do |project|
+    Project.where.not(status: :completed).where.not(end_date: nil).find_each do |project|
       if project.end_date == today + 1.day
         send_deadline_reminder(project)
       elsif project.end_date <= today

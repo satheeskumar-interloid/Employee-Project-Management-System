@@ -16,7 +16,7 @@
       </div>
       <div class="form-group">
         <%= form.label :project_id, "Project" %>
-        <%= form.collection_select :project_id, Project.order(:name), :id, :name, { include_blank: "All Projects" }, { class: "form-control" } %>
+        <%= form.collection_select :project_id, @projects, :id, :name, { include_blank: "All Projects", selected: params[:project_id] }, { class: "form-control" } %>
       </div>
       <div class="form-group">
         <%= form.label :status, "Status" %>
@@ -88,7 +88,7 @@
     <h2>No tasks found</h2>
     <p>There are no tasks matching your search or filter.</p>
     <% if current_user.admin? || current_user.employee? %>
-      <%= link_to "Create First Task", new_task_path, class: "button button-primary" %>
+      <%= link_to "Create Task", new_task_path, class: "button button-primary" %>
     <% end %>
   </div>
 <% end %>

@@ -2,6 +2,8 @@ class Task < ApplicationRecord
   belongs_to :project
   belongs_to :assignee, class_name: "User"
 
+  has_many_attached :attachments
+
   enum :priority, {
     low: 0,
     medium: 1,
@@ -19,10 +21,13 @@ class Task < ApplicationRecord
   validates :description, presence: true
   validates :start_date, presence: true
   validates :end_date, presence: true
+  validates :project, presence: true
+  validates :assignee, presence: true
+
 
   validate :end_date_not_before_project_start
+  validate :attachment_required
 
-  has_many_attached :attachments
 
   private
 
@@ -34,5 +39,11 @@ class Task < ApplicationRecord
     if end_date < project.start_date
       errors.add(:end_date, "cannot be before project start date")
     end
+  end
+
+  def attachment_required
+    return if persisted? && attachments.attached?
+
+    errors.add(:attachments, "must have at least one attachment") unless attachments.attached?
   end
 end

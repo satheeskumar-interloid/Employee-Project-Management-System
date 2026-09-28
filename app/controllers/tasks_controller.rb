@@ -1,24 +1,11 @@
 class TasksController < ApplicationController
+  include TaskFilters
   before_action :set_task, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @tasks = policy_scope(Task).includes(:project, :assignee)
-
-    if params[:search].present?
-      @tasks = @tasks.where("title LIKE ?", "%#{params[:search]}%")
-    end
-
-    if params[:project_id].present?
-      @tasks = @tasks.where(project_id: params[:project_id])
-    end
-
-    if params[:status].present?
-      @tasks = @tasks.where(status: params[:status])
-    end
-
-    if params[:priority].present?
-      @tasks = @tasks.where(priority: params[:priority])
-    end
+    @projects = policy_scope(Project).order(:name)
+    @tasks = apply_task_filters(@tasks)
   end
 
   def show
@@ -39,6 +26,7 @@ class TasksController < ApplicationController
       TaskCreatedJob.perform_later(@task.id)
       redirect_to @task, notice: "Task created successfully."
     else
+      @projects = policy_scope(Project)
       render :new, status: :unprocessable_entity
     end
 
@@ -57,6 +45,7 @@ class TasksController < ApplicationController
     if @task.update(task_params)
       redirect_to @task, notice: "Task updated successfully."
     else
+      @projects = policy_scope(Project)
       render :edit, status: :unprocessable_entity
     end
   end

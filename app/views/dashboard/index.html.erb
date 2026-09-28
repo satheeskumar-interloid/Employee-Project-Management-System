@@ -1,7 +1,5 @@
 <div class="dashboard">
-
   <% if current_user.admin? %>
-
     <div class="dashboard-header">
       <div>
         <h1>Admin Dashboard</h1>
@@ -9,108 +7,83 @@
         <span>Overview of your employee project management system.</span>
       </div>
     </div>
-
     <div class="dashboard-cards">
-
       <div class="dashboard-card">
         <div class="card-icon employees-icon">
         <i class="fa-solid fa-users-line"></i>
         </div>
-
         <div class="card-content">
           <span class="card-label">Employees</span>
           <h2><%= @employees_count %></h2>
           <p>Active employees</p>
         </div>
       </div>
-
       <div class="dashboard-card">
         <div class="card-icon projects-icon">
         <i class="fa-regular fa-folder"></i>
         </div>
-
         <div class="card-content">
           <span class="card-label">Projects</span>
           <h2><%= @projects_count %></h2>
           <p>Total projects</p>
         </div>
       </div>
-
       <div class="dashboard-card">
         <div class="card-icon tasks-icon">
         <i class="fa-solid fa-list-check"></i>
         </div>
-
         <div class="card-content">
           <span class="card-label">Tasks</span>
           <h2><%= @tasks_count %></h2>
           <p>Total tasks</p>
         </div>
       </div>
-
     </div>
-
     <div class="dashboard-section">
-
       <div class="dashboard-panel">
         <div class="panel-header">
           <h3>Quick Actions</h3>
           <p>Manage your workspace</p>
         </div>
-
         <div class="quick-actions">
-
           <%= link_to new_project_path, class: "quick-action" do %>
             <span class="action-icon">+</span>
-
             <div>
               <strong>Create Project</strong>
               <small>Start a new project</small>
             </div>
           <% end %>
-
           <%= link_to new_task_path, class: "quick-action" do %>
             <span class="action-icon">+</span>
-
             <div>
               <strong>Create Task</strong>
               <small>Add a new task</small>
             </div>
           <% end %>
-
         </div>
       </div>
-
       <div class="dashboard-panel">
         <div class="panel-header">
           <h3>System Overview</h3>
           <p>Current statistics</p>
         </div>
-
         <div class="overview-list">
-
           <div class="overview-row">
             <span>Employees</span>
             <strong><%= @employees_count %></strong>
           </div>
-
           <div class="overview-row">
             <span>Projects</span>
             <strong><%= @projects_count %></strong>
           </div>
-
           <div class="overview-row">
             <span>Tasks</span>
             <strong><%= @tasks_count %></strong>
           </div>
-
         </div>
       </div>
-
     </div>
-
   <% else %>
-
     <div class="dashboard-header">
       <div>
         <h1>Employee Dashboard</h1>
@@ -118,89 +91,67 @@
         <span>Overview of your assigned projects and tasks.</span>
       </div>
     </div>
-
     <div class="dashboard-cards">
-
       <div class="dashboard-card">
         <div class="card-icon projects-icon">
         <i class="fa-regular fa-folder"></i>
         </div>
-
         <div class="card-content">
           <span class="card-label">My Projects</span>
           <h2><%= @projects_count %></h2>
           <p>Assigned projects</p>
         </div>
       </div>
-
       <div class="dashboard-card">
         <div class="card-icon tasks-icon">
           <i class="fa-solid fa-list-check"></i>
         </div>
-
         <div class="card-content">
           <span class="card-label">My Tasks</span>
           <h2><%= @tasks_count %></h2>
           <p>Assigned tasks</p>
         </div>
       </div>
-
     </div>
-
     <div class="dashboard-section employee-section">
-
       <div class="dashboard-panel">
         <div class="panel-header">
           <h3>Quick Actions</h3>
           <p>Access your work</p>
         </div>
-
         <div class="quick-actions">
-
           <%= link_to projects_path, class: "quick-action" do %>
             <span class="action-icon">→</span>
-
             <div>
               <strong>View Projects</strong>
               <small>View your assigned projects</small>
             </div>
           <% end %>
-
           <%= link_to tasks_path, class: "quick-action" do %>
             <span class="action-icon">→</span>
-
             <div>
               <strong>View Tasks</strong>
               <small>View your assigned tasks</small>
             </div>
           <% end %>
-
         </div>
       </div>
-
       <div class="dashboard-panel">
         <div class="panel-header">
           <h3>My Overview</h3>
           <p>Current workload</p>
         </div>
-
         <div class="overview-list">
-
           <div class="overview-row">
             <span>My Projects</span>
             <strong><%= @projects_count %></strong>
           </div>
-
           <div class="overview-row">
             <span>My Tasks</span>
             <strong><%= @tasks_count %></strong>
           </div>
-
         </div>
       </div>
-
     </div>
-
   <% end %>
-
 </div>
