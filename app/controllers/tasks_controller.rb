@@ -14,11 +14,17 @@ class TasksController < ApplicationController
 
   def new
     @task = Task.new
-    @projects = policy_scope(Project)
+    load_form_data
   end
 
   def create
     @task = Task.new(task_params)
+
+    if @task.invalid?
+      load_form_data
+      render :new, status: :unprocessable_entity
+      return
+    end
 
     authorize @task
 
@@ -26,7 +32,7 @@ class TasksController < ApplicationController
       TaskCreatedJob.perform_later(@task.id)
       redirect_to @task, notice: "Task created successfully."
     else
-      @projects = policy_scope(Project)
+      load_form_data
       render :new, status: :unprocessable_entity
     end
 
@@ -35,8 +41,8 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @projects = policy_scope(Project)
     authorize @task
+    load_form_data
   end
 
   def update
@@ -45,7 +51,7 @@ class TasksController < ApplicationController
     if @task.update(task_params)
       redirect_to @task, notice: "Task updated successfully."
     else
-      @projects = policy_scope(Project)
+      load_form_data
       render :edit, status: :unprocessable_entity
     end
   end
@@ -64,6 +70,11 @@ class TasksController < ApplicationController
 
   def set_task
     @task = Task.find(params[:id])
+  end
+
+  def load_form_data
+    @projects  = policy_scope(Project)
+    @assignees = @task.project ? @task.project.members : User.none
   end
 
   def task_params

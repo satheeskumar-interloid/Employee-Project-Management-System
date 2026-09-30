@@ -278,7 +278,6 @@ main {
   background: #ecfdf5;
 }
 
-
 /* Card content */
 
 .card-content {
@@ -798,6 +797,8 @@ main {
 
 .existing-attachments {
   margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .attachment-name {
@@ -807,6 +808,9 @@ main {
   border: 1px solid #ddd;
   border-radius: 6px;
   display: inline-block;
+  display: flex;
+  gap: 5px;
+  
 }
 
 .projects-grid {
@@ -970,4 +974,5 @@ main {
   }
 }
 
-/* attachments: */
+
+

@@ -26,7 +26,9 @@ class Task < ApplicationRecord
 
 
   validate :end_date_not_before_project_start
-  validate :attachment_required
+  validate :assignee_must_be_project_member
+  validate :end_date_not_before_start_date
+
 
 
   private
@@ -41,9 +43,18 @@ class Task < ApplicationRecord
     end
   end
 
-  def attachment_required
-    return if persisted? && attachments.attached?
+  def end_date_not_before_start_date
+    return if start_date.blank?
+    return if end_date.blank?
 
-    errors.add(:attachments, "must have at least one attachment") unless attachments.attached?
+    if end_date < start_date
+      errors.add(:end_date, "cannot be before task start date")
+    end
   end
+
+  def assignee_must_be_project_member
+  return if assignee.blank? || project.blank?
+  errors.add(:assignee, "must be a member of the project") unless project.members.exists?(assignee.id)
+end
+
 end

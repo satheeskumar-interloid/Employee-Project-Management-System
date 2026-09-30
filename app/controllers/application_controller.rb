@@ -19,9 +19,9 @@ class ApplicationController < ActionController::Base
     root_path
   end
 
-  def after_sign_up_path_for(resource)
-    new_user_session_path
-  end
+  # def after_sign_up_path_for(resource)
+  #   new_user_session_path
+  # end
 
   # IMPORTANT for Confirmable
   def after_inactive_sign_up_path_for(resource)
