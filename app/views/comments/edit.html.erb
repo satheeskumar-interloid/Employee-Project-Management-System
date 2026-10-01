@@ -1,0 +1,28 @@
+<div class="page-header">
+  <div>
+    <h1>Edit Comment</h1>
+    <p>Update your comment</p>
+  </div>
+</div>
+<div class="card">
+  <%= form_with model: [@commentable, @comment] do |form| %>
+    <% if @comment.errors.any? %>
+      <div class="flash flash-error">
+        <ul>
+          <% @comment.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="form-group">
+      <%= form.label :content, "Comment" %>
+      <%= form.text_area :content, rows: 5, placeholder: "Write your comment..." %>
+    </div>
+    <div class="form-actions">
+      <%= form.submit "Update Comment", class: "button button-primary" %>
+      <%= link_to "Cancel", @commentable, class: "button button-secondary" %>
+    </div>
+  <% end %>
+</div>
+

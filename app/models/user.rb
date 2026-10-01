@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :project_members, dependent: :destroy
   has_many :member_projects, through: :project_members, source: :project
   has_many :assigned_tasks, class_name: "Task", foreign_key: :assignee_id, dependent: :nullify
+  has_many :comments, dependent: :destroy
 
   validates :name, presence: true
 end

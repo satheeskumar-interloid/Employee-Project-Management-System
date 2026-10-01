@@ -4,6 +4,7 @@ class Project < ApplicationRecord
   has_many :project_members, dependent: :destroy
   has_many :members, through: :project_members, source: :user
   has_many :tasks, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   has_many_attached :attachments
 
@@ -15,14 +16,11 @@ class Project < ApplicationRecord
   }
 
   validates :name, presence: true, uniqueness: true
-  validates :description, presence: true
   validates :start_date, presence: true
   validates :end_date, presence: true
   validates :project_members, presence:true
 
   validate :end_date_after_start_date
-
-
 
   private
 

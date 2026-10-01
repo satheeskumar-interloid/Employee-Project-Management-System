@@ -4,6 +4,8 @@ class Task < ApplicationRecord
 
   has_many_attached :attachments
 
+  has_many :comments, as: :commentable, dependent: :destroy
+
   enum :priority, {
     low: 0,
     medium: 1,
@@ -18,18 +20,14 @@ class Task < ApplicationRecord
   }
 
   validates :title, presence: true
-  validates :description, presence: true
   validates :start_date, presence: true
   validates :end_date, presence: true
   validates :project, presence: true
   validates :assignee, presence: true
 
-
   validate :end_date_not_before_project_start
   validate :assignee_must_be_project_member
   validate :end_date_not_before_start_date
-
-
 
   private
 
@@ -53,8 +51,8 @@ class Task < ApplicationRecord
   end
 
   def assignee_must_be_project_member
-  return if assignee.blank? || project.blank?
-  errors.add(:assignee, "must be a member of the project") unless project.members.exists?(assignee.id)
-end
+    return if assignee.blank? || project.blank?
+    errors.add(:assignee, "must be a member of the project") unless project.members.exists?(assignee.id)
+  end
 
 end

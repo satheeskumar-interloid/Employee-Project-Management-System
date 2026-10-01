@@ -1,4 +1,4 @@
-<%= form_with model: project do |form| %>
+<%= form_with model: project, id: "project-form", local: true do |form| %>
   <% if project.errors.any? %>
     <div class="flash flash-error">
       <ul>
@@ -28,25 +28,36 @@
     <%= form.label :end_date %>
     <%= form.date_field :end_date %>
   </div>
-  <div class="form-group">
-    <%= form.label :attachments, "Attachments" %>
-    <% if project.persisted? %>
-      <% if project.attachments.attached? %>
-        <div class="existing-attachments">
-          <% project.attachments.each do |attachment| %>
-            <div class="attachment-name">
-              <%= attachment.filename %>
-            </div>
-          <% end %>
+<div class="form-group">
+  <%= form.label :attachments, "Attachments" %>
+  <% if project.persisted? && project.attachments.attached? %>
+    <div class="existing-attachments">
+      <% project.attachments.each do |attachment| %>
+        <div class="attachment-name">
+          <%= attachment.filename %>
+            <label> <%= check_box_tag "project[remove_attachment_ids][]", attachment.id, false, id: "remove_attachment_#{attachment.id}" %></label>
         </div>
       <% end %>
-      <%= form.file_field :attachments, multiple: true %>
-      <small> Upload additional files if needed. </small>
-    <% else %>
-      <%= form.file_field :attachments, multiple: true %>
-      <small> At least one attachment is required. </small>
+    </div>
+  <% end %>
+  <%= form.file_field :attachments, multiple: true, direct_upload: true, id: "project_attachments" %>
+  <small> You can upload one or more files. </small>
+  <div id="pending-project-attachments">
+    <% if params.dig(:project, :attachments).present? %>
+      <% Array(params[:project][:attachments]).each do |signed_id| %>
+        <% next if signed_id.blank? %>
+        <% blob = ActiveStorage::Blob.find_signed(signed_id) rescue nil %>
+        <% if blob %>
+          <div class="pending-attachment" data-signed-id="<%= signed_id %>">
+            <span> 📎 <%= blob.filename %> </span>
+            <button type="button" class="remove-project-attachment"> X </button>
+            <%= hidden_field_tag "project[attachments][]", signed_id, data: { attachment_id: signed_id } %>
+          </div>
+        <% end %>
+      <% end %>
     <% end %>
   </div>
+</div>
   <div class="form-group">
     <%= form.label :member_ids, "Project Members" %>
     <details class="members-dropdown">

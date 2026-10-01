@@ -34,7 +34,10 @@ class ProjectsController < ApplicationController
   def update
     authorize @project
 
-    if @project.update(project_params)
+    @project.assign_attributes(project_attributes) 
+    remove_attachments 
+    attach_new_files 
+    if @project.save
       redirect_to @project, notice: "Project updated successfully."
     else
       render :edit, status: :unprocessable_entity
@@ -64,8 +67,28 @@ class ProjectsController < ApplicationController
   def set_project
     @project = Project.find(params[:id])
   end
-
+  
   def project_params
     params.require(:project).permit( :name, :description, :status, :start_date, :end_date, member_ids: [], attachments: [] )
+  end
+
+  def project_attributes 
+    params.require(:project).permit( :name, :description, :status, :start_date, :end_date, member_ids: []  ) 
+  end 
+
+  def attach_new_files 
+    files = params.dig(:project, :attachments) 
+    files = Array(files).reject(&:blank?) 
+    return if files.empty? 
+    @project.attachments.attach(files) 
+  end
+
+  def remove_attachments 
+    attachment_ids = params.dig(:project, :remove_attachment_ids) 
+    attachment_ids = Array(attachment_ids).reject(&:blank?) 
+    attachment_ids.each do |attachment_id| 
+      attachment = @project.attachments.find_by(id: attachment_id) 
+      attachment&.purge 
+    end 
   end
 end

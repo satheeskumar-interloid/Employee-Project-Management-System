@@ -45,15 +45,17 @@ class TasksController < ApplicationController
     load_form_data
   end
 
-  def update
-    authorize @task
-
-    if @task.update(task_params)
-      redirect_to @task, notice: "Task updated successfully."
-    else
-      load_form_data
-      render :edit, status: :unprocessable_entity
-    end
+  def update 
+    authorize @task 
+    @task.assign_attributes(task_attributes) 
+    remove_attachments 
+    attach_new_files 
+    if @task.save 
+      redirect_to @task, notice: "Task updated successfully." 
+    else 
+      load_form_data 
+      render :edit, status: :unprocessable_entity 
+    end 
   end
 
   def destroy
@@ -69,7 +71,12 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = Task.find(params[:id])
+    @task = Task.find_by(id: params[:id])
+
+    unless @task
+      redirect_to tasks_path, alert: "Task not found."
+      return
+    end
   end
 
   def load_form_data
@@ -79,5 +86,25 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit( :title, :description, :priority, :status, :start_date, :end_date, :project_id, :assignee_id, attachments: [] )
+  end
+
+  def task_attributes 
+    params.require(:task).permit( :title, :description, :priority, :status, :start_date, :end_date, :project_id, :assignee_id ) 
+  end 
+  
+  def attach_new_files 
+    files = params.dig(:task, :attachments) 
+    files = Array(files).reject(&:blank?) 
+    return if files.empty? 
+    @task.attachments.attach(files) 
+  end
+
+  def remove_attachments 
+    attachment_ids = params.dig(:task, :remove_attachment_ids) 
+    attachment_ids = Array(attachment_ids).reject(&:blank?) 
+    attachment_ids.each do |attachment_id| 
+      attachment = @task.attachments.find_by(id: attachment_id) 
+      attachment&.purge 
+    end 
   end
 end

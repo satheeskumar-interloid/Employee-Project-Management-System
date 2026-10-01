@@ -68,7 +68,7 @@
       <h2>No Projects Found</h2>
       <p>There are currently no projects available.</p>
       <% if policy(Project).create? %>
-        <%= link_to "Create Your First Project", new_project_path, class: "button button-primary" %>
+        <%= link_to "Create Project", new_project_path, class: "button button-primary" %>
       <% end %>
     </div>
   <% end %>
