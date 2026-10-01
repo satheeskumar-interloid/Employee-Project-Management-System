@@ -6,6 +6,17 @@ Rails.application.configure do
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
 
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "gmail.com",
+    user_name: Rails.application.credentials.dig(:smtp, :user_name),
+    password: Rails.application.credentials.dig(:smtp, :password),
+    authentication: "plain",
+    enable_starttls_auto: true
+  }
   # Do not eager load code on boot.
   config.eager_load = false
 
@@ -54,6 +65,9 @@ Rails.application.configure do
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
+
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Highlight code that triggered redirect in logs.
   config.action_dispatch.verbose_redirect_logs = true

@@ -1,0 +1,10 @@
+<div class="page-header">
+  <div>
+    <h1>Create Task</h1>
+    <p>Create a new task and assign it to an employee.</p>
+  </div>
+  <%= link_to "Back to Tasks", tasks_path, class: "button button-secondary" %>
+</div>
+<div class="card form-card">
+  <%= render "form", task: @task %>
+</div>

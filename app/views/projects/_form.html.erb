@@ -1,0 +1,75 @@
+<%= form_with model: project, id: "project-form", local: true do |form| %>
+  <% if project.errors.any? %>
+    <div class="flash flash-error">
+      <ul>
+        <% project.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, placeholder: "Enter Project name", autofocus: true %>
+  </div>
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_area :description, placeholder: "Description.." %>
+  </div>
+  <div class="form-group">
+    <%= form.label :status %>
+    <%= form.select :status, Project.statuses.keys.map { |status| [status.humanize, status] } %>
+  </div>
+  <div class="form-group">
+    <%= form.label :start_date %>
+    <%= form.date_field :start_date %>
+  </div>
+  <div class="form-group">
+    <%= form.label :end_date %>
+    <%= form.date_field :end_date %>
+  </div>
+<div class="form-group">
+  <%= form.label :attachments, "Attachments" %>
+  <% if project.persisted? && project.attachments.attached? %>
+    <div class="existing-attachments">
+      <% project.attachments.each do |attachment| %>
+        <div class="attachment-name">
+          <%= attachment.filename %>
+            <label> <%= check_box_tag "project[remove_attachment_ids][]", attachment.id, false, id: "remove_attachment_#{attachment.id}" %></label>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  <%= form.file_field :attachments, multiple: true, direct_upload: true, id: "project_attachments" %>
+  <small> You can upload one or more files. </small>
+  <div id="pending-project-attachments">
+    <% if params.dig(:project, :attachments).present? %>
+      <% Array(params[:project][:attachments]).each do |signed_id| %>
+        <% next if signed_id.blank? %>
+        <% blob = ActiveStorage::Blob.find_signed(signed_id) rescue nil %>
+        <% if blob %>
+          <div class="pending-attachment" data-signed-id="<%= signed_id %>">
+            <span> 📎 <%= blob.filename %> </span>
+            <button type="button" class="remove-project-attachment"> X </button>
+            <%= hidden_field_tag "project[attachments][]", signed_id, data: { attachment_id: signed_id } %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+  <div class="form-group">
+    <%= form.label :member_ids, "Project Members" %>
+    <details class="members-dropdown">
+      <summary class="members-dropdown-button">
+        <span>Select Project Members</span>
+        <span class="dropdown-arrow">▼</span>
+      </summary>
+      <div class="members-dropdown-menu">
+        <%= form.collection_select :member_ids, User.employee, :id, :name, {}, { multiple: true, class: "project-members-select" } %>
+      </div>
+    </details>
+    <small class="form-help"> Select one or more employees for this project. </small>
+  </div>
+  <%= form.submit "Save Project", class: "button button-primary" %>
+<% end %>

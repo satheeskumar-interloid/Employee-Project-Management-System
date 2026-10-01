@@ -1,0 +1,35 @@
+<h2>Task Deadline Reminder</h2>
+
+<p>Hello,</p>
+
+<p>
+  This is a reminder that your task is due tomorrow.
+</p>
+
+<h3><%= @task.title %></h3>
+
+<table>
+  <tr>
+    <td><strong>Project:</strong></td>
+    <td><%= @project.name %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Priority:</strong></td>
+    <td><%= @task.priority.humanize %></td>
+  </tr>
+
+  <tr>
+    <td><strong>End Date:</strong></td>
+    <td><%= @task.end_date %></td>
+  </tr>
+</table>
+
+<p>
+  Please complete the task before the deadline.
+</p>
+
+<p>
+  Regards,<br>
+  Employee Project Management System
+</p>

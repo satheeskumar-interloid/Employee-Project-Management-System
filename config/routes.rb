@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "comments/create"
+  get "comments/destroy"
+  devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -10,5 +13,21 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "dashboard#index"
+
+  resources :projects do
+    member do
+      get :members
+    end
+  end
+  resources :tasks
+
+ resources :projects do
+  resources :comments, only: [:create, :edit, :update, :destroy]
 end
+
+resources :tasks do
+  resources :comments, only: [:create, :edit, :update, :destroy]
+end
+end
+

@@ -1,0 +1,29 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Change Your Password</h2>
+      <p> Create a secure, memorable password. </p>
+    </div>
+    <%= form_for( resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "auth-form" } ) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+      <%= f.hidden_field :reset_password_token %>
+      <div class="form-group">
+        <%= f.label :password, "New Password" %>
+        <% if @minimum_password_length %>
+          <small class="password-hint"> <%= @minimum_password_length %> characters minimum </small>
+        <% end %>
+        <%= f.password_field :password, autofocus: true, autocomplete: "new-password", placeholder: "Enter your new password", class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :password_confirmation, "Confirm New Password" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm your new password", class: "form-control" %>
+      </div>
+      <div class="form-actions">
+        <%= f.submit "Change My Password", class: "button button-primary auth-submit" %>
+      </div>
+    <% end %>
+    <div class="auth-links">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+New Task Assigned
+
+Hello,
+
+A new task has been assigned to you.
+
+Task Details
+------------
+
+Task: <%= @task.title %>
+Project: <%= @project.name %>
+Description: <%= @task.description %>
+Priority: <%= @task.priority.humanize %>
+Status: <%= @task.status.humanize %>
+Due Date: <%= @task.end_date %>
+
+Please complete the task before the deadline.
+
+Regards,
+Employee Project Management System

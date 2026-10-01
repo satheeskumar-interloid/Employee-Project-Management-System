@@ -1,0 +1,89 @@
+<%= form_with model: @task, id: "task-form", local: true do |form| %>
+  <% if task.errors.any? %>
+    <div class="flash flash-error">
+      <h3>
+        <%= pluralize(task.errors.count, "error") %>
+        prevented this task from being saved:
+      </h3>
+      <ul>
+        <% task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= form.label :title, "Task Title" %>
+    <%= form.text_field :title, placeholder: "Enter task title", autofocus: true %>
+
+
+      </div>
+
+      <div class="form-group">
+
+    <%= form.label :description, "Description" %>
+    <%= form.text_area :description, rows: 5, placeholder: "Describe the task..." %>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <%= form.label :project_id, "Project" %>
+      <%= form.collection_select :project_id, @projects, :id, :name, { prompt: "Select Project" }, { id: "task_project_id" } %>
+    </div>
+    <div class="form-group">
+      <%= form.label :assignee_id, "Assignee" %>
+      <%= form.select :assignee_id, options_from_collection_for_select(@assignees, :id, :name, task.assignee_id), { prompt: "Select Assignee" },
+            { id: "task_assignee_id" } %>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <%= form.label :priority %>
+      <%= form.select :priority, Task.priorities.keys.map { |priority| [priority.humanize, priority] }, { prompt: "Select Priority" } %>
+    </div>
+    <div class="form-group">
+      <%= form.label :status %>
+      <%= form.select :status, Task.statuses.keys.map { |status| [status.humanize, status] }, { prompt: "Select Status" } %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= form.label :start_date %>
+    <%= form.date_field :start_date %>
+  </div>
+  <div class="form-group">
+    <%= form.label :end_date %>
+    <%= form.date_field :end_date %>
+  </div>
+  <div class="form-group">
+    <%= form.label :attachments, "Attachments" %>
+    <% if task.persisted? && task.attachments.attached? %>
+      <div class="existing-attachments">
+        <% task.attachments.each do |attachment| %>
+          <div class="attachment-name">
+            <%= attachment.filename %>
+            <label> <%= check_box_tag "task[remove_attachment_ids][]", attachment.id, false, id: "remove_attachment_#{attachment.id}" %></label>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <%= form.file_field :attachments, multiple: true, direct_upload: true, id: "task_attachments" %>
+    <small> Optional. You can upload one or more files. </small>
+    <div id="pending-attachments">
+      <% if params.dig(:task, :attachments).present? %>
+        <% Array(params[:task][:attachments]).each do |signed_id| %>
+          <% blob = ActiveStorage::Blob.find_signed(signed_id) rescue nil %>
+          <% if blob %>
+            <div class="pending-attachment" data-signed-id="<%= signed_id %>">
+              <span> 📎 <%= blob.filename %> </span>
+              <button type="button" class="remove-attachment"> X </button>
+              <%= hidden_field_tag "task[attachments][]", signed_id, data: { attachment_id: signed_id } %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= form.submit( task.persisted? ? "Update Task" : "Create Task", class: "button button-primary" ) %>
+    <%= link_to "Cancel", tasks_path, class: "button button-secondary" %>
+  </div>
+<% end %>
